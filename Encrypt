@@ -1,0 +1,129 @@
+package chucknorris;
+
+import java.util.Scanner;
+
+public class Encrypt {
+    public static void start() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Input string:");
+        String input = scanner.nextLine();
+        System.out.println("Encoded string:");
+        String binary;
+        StringBuilder chuckNorris = new StringBuilder();
+        int one = 0;
+        int zero = 0;
+        char lastSymbol = 2;
+        char firstSymbol;
+        for (int i = 0; i < input.length(); i++) {
+            binary = String.format("%7s\n", Integer.toBinaryString(input.charAt(i))).replace(" ", "0");
+            chuckNorris.setLength(0);
+            for (int k = 0; k < binary.length(); k++) {
+                firstSymbol = binary.charAt(0);
+                switch (binary.charAt(k)) {
+                    case '1':
+                        zero = 0;
+                        one++;
+                        if (i == 0) {
+                            if (binary.charAt(k + 1) == '0' && one == 1) {
+                                chuckNorris.append(" 0 0");
+                                break;
+                            } else if (binary.charAt(k + 1) == '0') {
+                                chuckNorris.append(" 0 ");
+                                for (int j = 0; j < one; j++) {
+                                    chuckNorris.append("0");
+                                }
+                                break;
+                            } else if (k == 6) {
+                                lastSymbol = binary.charAt(k);
+                                chuckNorris.append(" 0 ");
+                                for (int j = 0; j < one; j++) {
+                                    chuckNorris.append("0");
+                                }
+                                break;
+                            }
+                        } else {
+                            if (firstSymbol == lastSymbol && binary.charAt(k + 1) == '0') {
+                                for (int j = 0; j < one; j++) {
+                                    chuckNorris.append("0");
+                                }
+                                lastSymbol = 2;
+                                break;
+                            } else if (binary.charAt(k + 1) == '0' && one == 1) {
+                                chuckNorris.append(" 0 0");
+                                break;
+                            } else if (binary.charAt(k + 1) == '0') {
+                                chuckNorris.append(" 0 ");
+                                for (int j = 0; j < one; j++) {
+                                    chuckNorris.append("0");
+                                }
+                                break;
+                            } else if (k == 6) {
+                                lastSymbol = binary.charAt(k);
+                                chuckNorris.append(" 0 ");
+                                for (int j = 0; j < one; j++) {
+                                    chuckNorris.append("0");
+                                }
+                                break;
+                            }
+                        }
+                        break;
+                    case '0':
+                        one = 0;
+                        zero++;
+                        if (i == 0) {
+                            if (binary.charAt(k + 1) == '1' && zero == 1) {
+                                chuckNorris.append(" 00 0");
+                                break;
+                            } else if (binary.charAt(k + 1) == '1') {
+                                chuckNorris.append(" 00 ");
+                                for (int j = 0; j < zero; j++) {
+                                    chuckNorris.append("0");
+                                }
+                                break;
+                            } else if (k == 6) {
+                                lastSymbol = binary.charAt(k);
+                                chuckNorris.append(" 00 ");
+                                for (int j = 0; j < zero; j++) {
+                                    chuckNorris.append("0");
+                                }
+                                break;
+                            }
+                        } else {
+                            if (firstSymbol == lastSymbol && binary.charAt(k + 1) == '1') {
+                                for (int j = 0; j < zero; j++) {
+                                    chuckNorris.append("0");
+                                }
+                                lastSymbol = 2;
+                                break;
+                            } else if (binary.charAt(k + 1) == '1' && zero == 1) {
+                                chuckNorris.append(" 00 0");
+                                break;
+                            } else if (binary.charAt(k + 1) == '1') {
+                                chuckNorris.append(" 00 ");
+                                for (int j = 0; j < zero; j++) {
+                                    chuckNorris.append("0");
+                                }
+                                break;
+                            } else if (k == 6) {
+                                lastSymbol = binary.charAt(k);
+                                chuckNorris.append(" 00 ");
+                                for (int j = 0; j < zero; j++) {
+                                    chuckNorris.append("0");
+                                }
+                                break;
+                            }
+                        }
+                        break;
+                }
+            }
+            //System.out.print(" ");
+            if (i == 0) {
+                System.out.print(chuckNorris.toString().trim());
+            } else {
+                System.out.print(chuckNorris);
+            }
+            zero = 0;
+            one = 0;
+        }
+    }
+}
