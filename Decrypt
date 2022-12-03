@@ -1,0 +1,93 @@
+package chucknorris;
+
+import java.util.Scanner;
+
+public class Decrypt {
+    public static void start() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Input encoded string:");
+        String input = scanner.nextLine();
+        if (checkInput(input)) {
+            decode(input);
+        } else {
+            System.out.println("Encoded string is not valid.");
+        }
+    }
+    public static void decode(String input) {
+        String[] zeroOne = input.split(" ");
+        String binary = "";
+        for (int i = 0; i < zeroOne.length; i++) {
+            switch (zeroOne[i]) {
+                case "0":
+                    String[] One = zeroOne[i + 1].split("");
+                    for (int j = 0; j < One.length; j++) {
+                        binary += "1";
+                    }
+                    i++;
+                    break;
+                case "00":
+                    String[] Two = zeroOne[i + 1].split("");
+                    for (int j = 0; j < Two.length; j++) {
+                        binary += "0";
+                    }
+                    i++;
+                    break;
+            }
+        }
+        String[] binaryResult = binary.split("(?<=\\G.......)");
+        if (checkFour(binaryResult)) {
+            System.out.println("Encoded string is not valid.");
+            Main.start();
+        } else {
+            System.out.println("Decoded string:");
+            for (String s : binaryResult) {
+                int decimal = Integer.parseInt(s, 2);
+                char[] chars = Character.toChars(decimal);
+                System.out.print(chars);
+            }
+        }
+    }
+    public static boolean checkInput(String input) {
+        if (checkOne(input)) {
+            return false;
+        } else if (checkTwo(input)) {
+            return false;
+        } else if (checkThree(input)) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    private static boolean checkOne(String input) {
+        int wrong = 0;
+        String[] inputArray = input.split("");
+        for (int i = 0; i < inputArray.length; i++) {
+            if (!inputArray[i].equals("0") && !inputArray[i].equals(" ")) {
+                wrong++;
+            }
+        }
+        return wrong != 0;
+    }
+
+    private static boolean checkTwo(String input) {
+        String[] inputArray = input.split(" ");
+        return !inputArray[0].equals("0") && !inputArray[0].equals("00");
+    }
+
+    private static boolean checkThree(String input) {
+        String[] inputArray = input.split(" ");
+        return inputArray.length % 2 != 0;
+    }
+
+    private static boolean checkFour(String[] binaryResult) {
+        boolean flag = false;
+        for (String s : binaryResult) {
+            if (s.length() != 7) {
+                flag = true;
+                break;
+            }
+        }
+        return flag;
+    }
+}
