@@ -1,0 +1,39 @@
+package chucknorris;
+
+import java.util.Scanner;
+
+public class Main {
+    static boolean program = true;
+    static Scanner scanner = new Scanner(System.in);
+
+    public static void main(String[] args) {
+        start();
+    }
+    public static void start() {
+        while (program) {
+            System.out.println("\nPlease input operation (encode/decode/exit):");
+            String action = scanner.nextLine();
+            if (checkingAction(action)) {
+                menu(action);
+            } else {
+                System.out.printf("There is no '%s' operation", action);
+                start();
+            }
+        }
+    }
+    private static void menu(String action) {
+        switch (action) {
+            case "encode" -> Encrypt.start();
+            case "decode" -> Decrypt.start();
+            case "exit" -> {
+                System.out.println("Bye!");
+                program = false;
+            }
+        }
+    }
+
+    private static boolean checkingAction(String action) {
+        return action.equals("encode") || action.equals("decode") || action.equals("exit");
+    }
+}
+
